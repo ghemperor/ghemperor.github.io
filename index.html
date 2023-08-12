@@ -1,1 +1,71 @@
-"Hello World" 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hình Ảnh Ngẫu Nhiên</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  header {
+    background-color: #e91e63;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Hình Ảnh Ngẫu Nhiên</h1>
+  </header>
+  <div class="container">
+    <img id="randomImage" src="" alt="Hình ảnh ngẫu nhiên">
+    <button onclick="changeImage()">Tạo Hình Mới</button>
+  </div>
+  <footer>
+    <p>© 2023 Hình Ảnh Ngẫu Nhiên. All rights reserved.</p>
+  </footer>
+  <script>
+    const imageLinks = [
+      "https://i1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=BWzFqMmUWVFC1OfpPSUqMA",
+      "https://i1-dulich.vnecdn.net/2021/07/16/2-1626444940.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=QBhjEzy_5EIISB2CWDpQlw",
+      "https://i1-dulich.vnecdn.net/2021/07/16/7-1-1626444923.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=1wDOcOPXJz8dNyWGp0e_hA",
+      // Thêm liên kết đến các hình ảnh khác vào đây
+    ];
+
+    function getRandomIndex(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    function changeImage() {
+      const randomIndex = getRandomIndex(imageLinks.length);
+      const randomImageLink = imageLinks[randomIndex];
+      document.getElementById("randomImage").src = randomImageLink;
+    }
+
+    // Hiển thị hình ảnh ngẫu nhiên khi trang được tải
+    changeImage();
+  </script>
+</body>
+</html>
