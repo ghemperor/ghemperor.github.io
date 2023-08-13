@@ -48,7 +48,12 @@
       /* Hiệu ứng màu nền khi hover */
     }
 
-    .generate-button:hover {
+    .pink-button {
+      background-color: #ff6b6b;
+      /* Màu hồng */
+    }
+
+    .pink-button:hover {
       background-color: #ff4f4f;
       /* Màu hồng khi hover */
     }
@@ -63,6 +68,7 @@
   </div>
   <div class="container">
     <button class="generate-button" id="generate-button">Nhấn để biết</button>
+    <button class="generate-button pink-button" id="love-button">Yêu em</button>
   </div>
   <script>
     const imagePaths = [
@@ -203,6 +209,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       const randomImageButton = document.getElementById("generate-button");
+      const loveButton = document.getElementById("love-button");
       const randomImageElement = document.getElementById("random-image");
 
       randomImageButton.addEventListener("click", () => {
@@ -211,6 +218,10 @@
           const randomImagePath = imagePaths[randomIndex];
           randomImageElement.src = `babe/${randomImagePath}`;
         }
+      });
+
+      loveButton.addEventListener("click", () => {
+        window.location.href = "heart.html";
       });
     });
   </script>
