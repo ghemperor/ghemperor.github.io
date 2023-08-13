@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        body {
+            background: #99c;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        footer {
+            background: #666;
+            text-align: center;
+            line-height: 1.5em;
+            padding: 2.5em 0;
+            color: #fff;
+        }
+
+        h1 {
+            color: #666;
+            position: relative;
+            z-index: 1;
+            transition: all 1.5s ease-in-out;
+        }
+
+        .paper {
+            width: 25em;
+            height: 15em;
+            position: absolute;
+            display: block;
+            top: 2em;
+            left: 2.5em;
+            background: #fff;
+            -webkit-transition: 1.5s ease-in-out;
+            -moz-transition: 1.5s ease-in-out;
+            transition: all 1.5s ease-in-out;
+            z-index: 1;
+            text-align: center;
+            padding: 1em;
+            box-sizing: border-box;
+        }
+
+        .back {
+            display: block;
+            position: relative;
+            background: #ddd;
+            top: 0;
+            height: 0;
+            width: 30em;
+            height: 17em;
+            content: "";
+            -webkit-transition: 1.5s ease-in-out;
+            -moz-transition: 1.5s ease-in-out;
+            transition: all 1.5s ease-in-out;
+            box-shadow: 0 0 1em rgba(204, 204, 204, .15);
+            z-index: 0;
+        }
+
+        .container {
+            margin: 0 auto 0 auto;
+            padding: 10em 1em 1em 1em;
+            width: 30em;
+            height: 20em;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            z-index: 0;
+            transition: all 1.5s ease-in-out;
+        }
+
+        .cover {
+            position: absolute;
+            top: 0em;
+            left: 50%;
+            height: 1em;
+            display: block;
+            -moz-transform: translate(-50%, 0%) scaleY(1);
+            -webkit-transform: translate(-50%, 0%) scaleY(1);
+            transform: translate(-50%, 0%) scaleY(1);
+            -webkit-transform-origin: 0% 50%;
+            -ms-transform-origin: 0% 50%;
+            transform-origin: 0% 50%;
+            margin: 0 auto;
+            border: 15em solid transparent;
+            border-top: 10em solid #f0f0f0;
+            -webkit-transition: all 1.5s ease-in-out;
+            -moz-transition: all 1.5s ease-in-out;
+            transition: z-index 1.5s ease-in-out, transform 1.5s ease-in-out, border-top 1.5s ease-in-out;
+            transition-delay: 1.5s;
+            z-index: 30;
+        }
+
+        .container:hover .back {
+            top: 10em;
+            z-index: 0;
+        }
+
+        .container:hover .paper {
+            top: -15em;
+            z-index: 45;
+            height: 30em;
+            transition: z-index 1.5s ease-in-out, top 1.5s ease-in-out, height 1.5s ease-in-out;
+            transition-delay: 1.5s;
+        }
+
+        .container:hover .cover {
+            border-top: 10em solid #f0f0f0;
+            -moz-transform: translate(-50%, -100%) scaleY(-1);
+            -webkit-transform: translate(-50%, -100%) scaleY(-1);
+            transform: translate(-50%, -100%) scaleY(-1);
+            z-index: 0;
+            transition-delay: 0s;
+        }
+
+        .bottom {
+            width: 0;
+            margin: 0 auto;
+            position: relative;
+            top: 0em;
+            display: block;
+            border-left: 15em solid #f0f0f0;
+            border-right: 15em solid #f0f0f0;
+            border-bottom: 7em solid #f0f0f0;
+            border-top: 10em solid transparent;
+            -webkit-transition: 1.5s ease-in-out;
+            -moz-transition: 1.5s ease-in-out;
+            transition: 1.5s ease-in-out;
+            z-index: 100;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var container = document.querySelector(".container");
+            var paper = container.querySelector(".paper");
+            var cover = container.querySelector(".cover");
+            var bottom = container.querySelector(".bottom");
+
+            container.addEventListener("click", function () {
+                if (!container.classList.contains("opened")) {
+                    container.classList.add("opened");
+                    paper.style.top = "-15em";
+                    paper.style.zIndex = "45";
+                    paper.style.height = "30em";
+                    cover.style.borderTop = "10em solid #f0f0f0";
+                    cover.style.transform = "translate(-50%, -100%) scaleY(-1)";
+                    bottom.style.borderTop = "10em solid transparent";
+                } else {
+                    container.classList.remove("opened");
+                    paper.style.top = "2em";
+                    paper.style.zIndex = "1";
+                    paper.style.height = "15em";
+                    cover.style.borderTop = "10em solid #f0f0f0";
+                    cover.style.transform = "translate(-50%, 0%) scaleY(1)";
+                    bottom.style.borderTop = "10em solid transparent";
+                }
+            });
+        });
+    </script>
+    <title>Your Merged Page</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="back">
+            <div class="paper">
+                <h2>Gửi cho em!</h2>
+            </div>
+            <div class="cover"></div>
+            <div class="bottom"></div>
+        </div>
+    </div>
+
+    <footer>
+        Made by Tri with love for Vy<br /> 
+    </footer>
+</body>
+
+</html>

@@ -2,229 +2,299 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Card</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fae1dd;
+        }
 
-    .container {
-      text-align: center;
-      width: 20vw;
-      /* Kích thước cố định cho khung */
-      height: 60vh;
-      /* Kích thước cố định cho khung */
-      overflow: hidden;
-      /* Ẩn phần hình ảnh nằm ngoài khung */
-      margin-bottom: 20px;
-      /* Khoảng cách giữa khung và nút "Generate" */
-    }
+        .container {
+            position: relative;
+        }
 
-    img {
-      width: 100%;
-      /* Hình ảnh sẽ chiếm toàn bộ chiều ngang của khung */
-      height: 100%;
-      /* Chiều cao sẽ tự động điều chỉnh để giữ tỷ lệ gốc */
-    }
+        .valentines {
+            position: relative;
+            top: 50px;
+            cursor: pointer;
+            animation: up 3s linear infinite;
+        }
 
-    .generate-button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #ff6b6b;
-      /* Màu hồng */
-      color: #fff;
-      /* Màu chữ trắng */
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      /* Hiệu ứng màu nền khi hover */
-    }
+        @keyframes up {
 
-    .pink-button {
-      background-color: #ff6b6b;
-      /* Màu hồng */
-    }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
 
-    .pink-button:hover {
-      background-color: #ff4f4f;
-      /* Màu hồng khi hover */
-    }
-  </style>
-  <title>Random Image Generator</title>
+            50% {
+                transform: translateY(-30px);
+            }
+        }
+
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: #f08080;
+        }
+
+        .envelope:before {
+            background-color: #f08080;
+            content: "";
+            position: absolute;
+            width: 212px;
+            height: 212px;
+            transform: rotate(45deg);
+            top: -105px;
+            left: 44px;
+            border-radius: 30px 0 0 0;
+        }
+
+        .card {
+            position: absolute;
+            background-color: #eae2b7;
+            width: 270px;
+            height: 170px;
+            top: 5px;
+            left: 15px;
+            box-shadow: -5px -5px 100px rgba(0, 0, 0, 0.4);
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            border: 3px solid #003049;
+            border-style: dotted;
+            width: 240px;
+            heighT: 140px;
+            left: 12px;
+            top: 12px;
+        }
+
+        .text {
+            position: absolute;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 28px;
+            text-align: center; /* Center the text horizontally */
+            line-height: 25px;
+            top: 50%; /* Position at 50% from the top */
+            left: 50%; /* Position at 50% from the left */
+            transform: translate(-50%, -50%); /* Center the element both horizontally and vertically */
+            color: #003049;
+        }
+
+        .heart {
+            background-color: #d62828;
+            display: inline-block;
+            height: 30px;
+            margin: 0 10px;
+            position: relative;
+            top: 110px;
+            left: 105px;
+            transform: rotate(-45deg);
+            width: 30px;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: #d62828;
+            border-radius: 50%;
+            height: 30px;
+            position: absolute;
+            width: 30px;
+        }
+
+        .heart:before {
+            top: -15px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 15px;
+            top: 0;
+        }
+
+        .hearts {
+            position: absolute
+        }
+
+        .one,
+        .two,
+        .three,
+        .four,
+        .five {
+            background-color: red;
+            display: inline-block;
+            height: 10px;
+            margin: 0 10px;
+            position: relative;
+            transform: rotate(-45deg);
+            width: 10px;
+            top: 50px;
+        }
+
+        .one:before,
+        .one:after,
+        .two:before,
+        .two:after,
+        .three:before,
+        .three:after,
+        .four:before,
+        .four:after,
+        .five:before,
+        .five:after {
+            content: "";
+            background-color: red;
+            border-radius: 50%;
+            height: 10px;
+            position: absolute;
+            width: 10px;
+        }
+
+        .one:before,
+        .two:before,
+        .three:before,
+        .four:before,
+        .five:before {
+            top: -5px;
+            left: 0;
+        }
+
+        .one:after,
+        .two:after,
+        .three:after,
+        .four:after,
+        .five:after {
+            left: 5px;
+            top: 0;
+        }
+
+        .one {
+            left: 10px;
+            animation: heart 1s ease-out infinite;
+        }
+
+        .two {
+            left: 30px;
+            animation: heart 2s ease-out infinite;
+        }
+
+        .three {
+            left: 50px;
+            animation: heart 1.5s ease-out infinite;
+        }
+
+        .four {
+            left: 70px;
+            animation: heart 2.3s ease-out infinite;
+        }
+
+        .five {
+            left: 90px;
+            animation: heart 1.7s ease-out infinite;
+        }
+
+        @keyframes heart {
+            0% {
+                transform: translateY(0) rotate(-45deg) scale(0.3);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-150px) rotate(-45deg) scale(1.3);
+                opacity: 0.5;
+            }
+        }
+
+        .front {
+            position: absolute;
+            border-right: 180px solid #f4978e;
+            border-top: 95px solid transparent;
+            border-bottom: 100px solid transparent;
+            left: 120px;
+            top: 5px;
+            width: 0;
+            height: 0;
+            z-index: 10;
+        }
+
+        .front:before {
+            position: absolute;
+            content: "";
+            border-left: 300px solid #f8ad9d;
+            border-top: 195px solid transparent;
+            left: -120px;
+            top: -95px;
+            width: 0;
+            height: 0;
+        }
+
+        .shadow {
+            position: absolute;
+            width: 330px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+            top: 265px;
+            left: -15px;
+            animation: scale 3s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes scale {
+
+            0%,
+            100% {
+                transform: scaleX(1);
+            }
+
+            50% {
+                transform: scaleX(0.85);
+            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-  <p>Nguyễn Minh Trí sẽ yêu ai cả đời này?</p>
-  <div class="container">
-    <img id="random-image" src="" alt="Random Image">
-  </div>
-  <div class="container">
-    <button class="generate-button" id="generate-button">Nhấn để biết</button>
-    <button class="generate-button pink-button" id="love-button">Yêu em</button>
-  </div>
-  <script>
-    const imagePaths = [
-      "FB_IMG_1682778042174.jpg",
-      "FB_IMG_1682778046963.jpg",
-      "IMG_1687011019149_1687173516078.jpg",
-      "IMG_1687011019150_1687173516176.jpg",
-      "IMG_1687011019151_1687173516270.jpg",
-      "IMG_1687011019152_1687173516326.jpg",
-      "IMG_1687011019153_1687173516399.jpg",
-      "IMG_1687011019154_1687173516463.jpg",
-      "IMG_1687011019155_1687173516534.jpg",
-      "IMG_1687011019156_1687173516611.jpg",
-      "IMG_1687011019157_1687173516735.jpg",
-      "IMG_1687011019158_1687173516819.jpg",
-      "IMG_1687011019159_1687173516906.jpg",
-      "IMG_1687011019160_1687173516982.jpg",
-      "IMG_1687011019161_1687173517055.jpg",
-      "IMG_20230225_214436.jpg",
-      "IMG_20230226_131015.jpg",
-      "IMG_20230226_131036.jpg",
-      "IMG_20230226_131039.jpg",
-      "IMG_20230313_002242.jpg",
-      "IMG_20230313_002245.jpg",
-      "IMG_20230313_002247.jpg",
-      "IMG_20230313_002313.jpg",
-      "IMG_20230313_002332.jpg",
-      "IMG_20230313_002339.jpg",
-      "IMG_20230313_002341.jpg",
-      "IMG_20230401_213716.jpg",
-      "IMG_20230401_213719.jpg",
-      "MYXJ_20230315003842967_save.jpg",
-      "MYXJ_20230315005007819_save.jpg",
-      "received_1055012925901659.jpg",
-      "received_108089835579539.jpg",
-      "received_1164693357576605.jpg",
-      "received_1184828565490477.jpg",
-      "received_1196520274588517.jpg",
-      "received_1202801583773994.jpg",
-      "received_1203268723673287.jpg",
-      "received_1224945424768226.jpg",
-      "received_1282359959337417.jpg",
-      "received_1297049611027101.jpg",
-      "received_1300830397498131.jpg",
-      "received_1314140466098334.jpg",
-      "received_1352023785414234.jpg",
-      "received_1371918800287198.jpg",
-      "received_1373297323509121.jpg",
-      "received_1381064349391612.jpg",
-      "received_1405836946620539.jpg",
-      "received_1532012710621893.jpg",
-      "received_1551537732023079.jpg",
-      "received_1564423607393438.jpg",
-      "received_1605102353243113.jpg",
-      "received_1609946732854034.jpg",
-      "received_1622046328273185.jpg",
-      "received_1634217853725103.jpg",
-      "received_165632136526214.jpg",
-      "received_1666337110483504.jpg",
-      "received_1691822221330646.jpg",
-      "received_179667128108066.jpg",
-      "received_1914282795602447.jpg",
-      "received_2068462010016162.jpg",
-      "received_219723971026674.jpg",
-      "received_220560470563046.jpg",
-      "received_225283096708809.jpg",
-      "received_228920523334520.jpg",
-      "received_235313602618347.jpg",
-      "received_2366970736823972.jpg",
-      "received_2406531216166325.jpg",
-      "received_2490693377744604.jpg",
-      "received_260771806703702.jpg",
-      "received_2654524821353890.jpg",
-      "received_2729574497183724.jpg",
-      "received_2818958021574870.jpg",
-      "received_489559730054273.jpg",
-      "received_506608941676188.jpg",
-      "received_524924596438111.jpg",
-      "received_528687979192078.jpg",
-      "received_548032800789293.jpg",
-      "received_564794998966737.jpg",
-      "received_574185674586284.jpg",
-      "received_5796411817152747.jpg",
-      "received_5811809558894783.jpg",
-      "received_5817669748270151.jpg",
-      "received_583255757151999.jpg",
-      "received_588936866712247.jpg",
-      "received_6093841394043146.jpg",
-      "received_619055613662804.jpg",
-      "received_621875916500734.jpg",
-      "received_628611102548733.jpg",
-      "received_6361747430541971.jpg",
-      "received_653381776649684.jpg",
-      "received_670490511186182.jpg",
-      "received_674448068033058.jpg",
-      "received_708505634284966.jpg",
-      "received_718931990015813.jpg",
-      "received_719265159870046.jpg",
-      "received_719760019525345.jpg",
-      "received_729193661950732.jpg",
-      "received_729360192090118.jpg",
-      "received_730059408469535.jpg",
-      "received_730092955174987.jpg",
-      "received_737870114354398.jpg",
-      "received_738281334638258.jpg",
-      "received_738707497636080.jpg",
-      "received_739587277494951.jpg",
-      "received_741063824477163.jpg",
-      "received_741564130680370.jpg",
-      "received_744712317339113.jpg",
-      "received_750462536299221.jpg",
-      "received_753629249801080.jpg",
-      "received_760714462419440.jpg",
-      "received_761040592218443.jpg",
-      "received_778538003755962.jpg",
-      "received_779890153752681.jpg",
-      "received_780061657129775.jpg",
-      "received_800828508250311.jpg",
-      "received_805771584228043.jpg",
-      "received_811444787010427.jpg",
-      "received_816782003161284.jpg",
-      "received_822926519232615.jpg",
-      "received_847490940197233.jpg",
-      "received_851556165850467.jpg",
-      "received_869732594121954.jpg",
-      "received_877544013478722.jpg",
-      "received_910550716858258.jpg",
-      "received_913697056500413.jpg",
-      "received_926992258487082.jpg",
-      "received_941769953923294.jpg",
-      "received_948300282995177.jpg",
-      "received_955318912373062.jpg",
-      "received_970817204211225.jpg",
-      "received_971278194287625.jpg",
-      "received_979242329795933.jpg",
-
-    ];
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const randomImageButton = document.getElementById("generate-button");
-      const loveButton = document.getElementById("love-button");
-      const randomImageElement = document.getElementById("random-image");
-
-      randomImageButton.addEventListener("click", () => {
-        if (imagePaths.length > 0) {
-          const randomIndex = Math.floor(Math.random() * imagePaths.length);
-          const randomImagePath = imagePaths[randomIndex];
-          randomImageElement.src = `babe/${randomImagePath}`;
-        }
-      });
-
-      loveButton.addEventListener("click", () => {
-        window.location.href = "heart.html";
-      });
-    });
-  </script>
+    <div class="container">
+        <div class="valentines">
+            <div class="envelope"></div>
+            <div class="front"></div>
+            <div class="card">
+                <div class="text">Happy</br> annivasary 6 tháng vợ iu ❤️!</div>
+            </div>
+            <div class="hearts">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+                <div class="four"></div>
+                <div class="five"></div>
+            </div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.container').mouseenter(function () {
+                $('.card').stop().animate({
+                    top: '-90px'
+                }, 'slow');
+            }).mouseleave(function () {
+                $('.card').stop().animate({
+                    top: 0
+                }, 'slow');
+            });
+        });
+    </script>
 </body>
 
 </html>
