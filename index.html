@@ -5,514 +5,451 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vara@1.4.0/lib/vara.min.js" type="text/javascript"></script>
     <style>
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            background: #fff4d3;
-            text-align: center;
-            font-family: "Roboto", sans-serif;
-            overflow: hidden;
-            font-size: 16px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        #container {
-            width: 60%;
-            margin: 20px auto;
-        }
-
-        .v-center {
-            display: inline-block;
-            vertical-align: middle;
-            height: 100%;
-            width: 0;
-        }
-
-        #container {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .book {
-            transform-style: preserve-3d;
-            transform: rotateX(45deg) rotateY(0deg) rotateZ(-45deg);
-            transition: transform 1s;
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 10%;
-            margin: auto;
-            width: 30em;
-            height: 40em;
-        }
-
-        .book .side {
-            width: 3em;
-            height: 40em;
-            background: #b36060;
-            position: absolute;
-            left: -3em;
-            top: 0;
-            transform-origin: 100% 100%;
-            transform: rotateY(-90deg) rotateX(0deg);
-        }
-
-        .book .bottom {
-            width: 25em;
-            height: 3em;
-            background: #e2e2e2;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            transform-origin: 100% 100%;
-            transform: rotateX(90deg);
-        }
-
-        .book.open {
-            transform: rotateX(35deg) rotateY(0deg) rotateZ(-35deg);
-        }
-
-        .book .paper,
-        .book .shadow {
-            width: 25em;
-            height: 40em;
+        canvas {
             position: absolute;
             top: 0;
             left: 0;
         }
 
-        .book .shadow {
-            background: transparent;
-            transform: translateZ(-3em);
-            box-shadow: -1em 1em 0px 0px #ccc3a9;
-            z-index: 1;
-        }
-
-        .book .paper {
-            transition: transform 1s, box-shadow 0.5s 0.2s;
-            transform-origin: 0 50%;
-            transform-style: preserve-3d;
-        }
-
-        .book .paper.open {
-            box-shadow: 2.2em 1em 0px 0px #ccc3a9;
-            transform: rotateX(0deg) rotateY(-180deg) rotateZ(0deg);
-        }
-
-        .book .paper .page.front {
-            transition: transform 1s;
-            transform-origin: 0 50%;
-            backface-visibility: hidden;
-            z-index: 2;
-        }
-
-        .book .page {
-            width: 100%;
-            height: 100%;
+        p {
+            margin: 0 0;
             position: absolute;
-            -webkit-transform: translateZ(0px);
-            transform: translateZ(0px);
+            font: 16px Verdana;
+            color: #eee;
+            height: 25px;
+            top: calc(100vh - 30px);
+            text-shadow: 0 0 2px white;
         }
 
-        .book .first .page {
-            background: #ef9a9a;
-        }
-
-        .book .first .page.front:after {
-            position: absolute;
-            content: "";
-            width: 50%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            background: rgba(160, 115, 115, 0.1);
-        }
-
-        .book .paper .back {
-            transition: transform 1s;
-            transform-origin: 0 50%;
-            background: #e1e1e1;
-        }
-
-        .book .first.paper .back {
-            background: #ef9a9a;
-        }
-
-        .book .intro {
-            position: absolute;
-            width: 90%;
-            width: calc(100% - 3em);
-            height: 90%;
-            height: calc(100% - 3em);
-            border: 2em solid #eee;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-        }
-
-        .book .intro h2 {
-            padding: 0.5em 0.5em;
-            font-size: 2em;
-            color: #fff;
-            word-break: break-all;
-            text-align: left;
-            letter-spacing: 5px;
-        }
-
-        .book .intro h1 {
-            padding: 0.5em 0.25em;
-            font-size: 6em;
-            color: #fff;
-            word-break: break-all;
-        }
-
-        .book .paper:not(.first) .page {
-            background: #f1f1f1;
-            background-image: linear-gradient(90deg,
-                    transparent 40px,
-                    #abced4 40px,
-                    #abced4 42px,
-                    transparent 42px),
-                linear-gradient(#e1e1e1 0.1em, transparent 0.1em);
-            background-size: 100% 1.5em;
-        }
-
-        .book .paper:not(.first) .back {
-            background: #e1e1e1;
-        }
-
-        .book .open.second .back {
-            transform: translateZ(-1px);
-        }
-
-        .book .open.third .back {
-            transform: translateZ(-2px);
-        }
-
-        .book .paper.first {
-            z-index: 8;
-        }
-
-        .book .paper.second {
-            z-index: 7;
-        }
-
-        .book .paper.third {
-            z-index: 6;
-        }
-
-        .book .paper.fourth {
-            z-index: 5;
-        }
-        .book .paper.fifth {
-            z-index: 4;
-        }
-
-        .book .paper.first .front {
-            transform: translateZ(0.4px);
-        }
-
-        .book .paper.second .front {
-            transform: translateZ(0.3px);
-        }
-
-        .book .paper.third .front {
-            transform: translateZ(0.2px);
-        }
-
-        .book .paper.fourth .front {
-            transform: translateZ(0.1px);
-        }
-        .book .paper.fifth .front {
-            transform: translateZ(0px);
-        }
-
-
-        .book .second-page #vara-container {
-            width: 100%;
-            height: 100%;
-            padding: 1em;
-        }
-
-        #link {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            color: #615858;
-            letter-spacing: 2px;
+        p a {
             text-decoration: none;
+            color: #aaa;
         }
 
-        @media (max-width: 700px) {
-            .book {
-                left: 50%;
-            }
+        span {
+            font-size: 11px;
+        }
+
+        p>a:first-of-type {
+            font-size: 20px;
+        }
+
+        body {
+            overflow: hidden;
         }
     </style>
 </head>
 
 <body>
-    <div class="v-center"></div>
-    <div id="container">
-        <div class="book">
-            <div class="first paper">
-                <div class="page front contents">
-                    <div class="intro">
-                        <h2>NHẬT KÝ</h2>
-                        <h2>YÊU EM</h2>
-                        <h1>2023</h1>
-                    </div>
-                </div>
-                <div class="page back"></div>
-            </div>
-            <div class="second paper">
-                <div class="page front contents">
-                    <div id="vara-container"></div>
-                </div>
-                <div class="page back"></div>
-            </div>
-            <div class="third paper">
-                <div class="page front contents">
-                    <div id="vara-container2"></div>
-                </div>
-                <div class="page back"></div>
-            </div>
-            <div class="fourth paper">
-                <div class="page last front contents">
-                    <div id="vara-container3"></div>
-                </div>
-                <div class="page back"></div>
-            </div>
-            <div class="fifth paper">
-                <div class="page last front contents">
-                    <div id="vara-container4"></div>
-                </div>
-                <div class="page back"></div>
-            </div>
-            <div class="side"></div>
-            <div class="bottom"></div>
-            <div class="shadow"></div>
-        </div>
-    </div>
-    <a id="link" href="https://github.com/akzhy/Vara" target="_blank">VIEW ON GITHUB</a>
+    <canvas id=c></canvas>
+    <p>From the codepals to <a href="https://codepen.io/tmrDevelops">Tiffany</a><span>, by <a
+                href="https://codepen.io/towc">Matei</a></span></p>
+
 </body>
 <script>
-    const $ = jQuery;
-    var winWidth = $(window).width();
-    var ratio = winWidth / 1920;
-    var fontSize = {
-        small: 12,
-        medium: 14
-    };
-    var played = [0, 0, 0];
-    var vara = [];
-    var bodyFontSize = Math.max(16 * ratio, 10);
-    var posX = Math.max(80 * ratio, 30);
-    $("body").css("font-size", bodyFontSize + "px");
-    fontSize.small = Math.max(fontSize.small * ratio, 7);
-    fontSize.medium = Math.max(fontSize.medium * ratio, 10);
-    vara[0] = new Vara(
-        "#vara-container",
-        "https://rawcdn.githack.com/akzhy/Vara/ed6ab92fdf196596266ae76867c415fa659eb348/fonts/Satisfy/SatisfySL.json",
-        [
-            {
-                text: "13/02/2023",
-                textAlign: "right",
-                y: 20,
-                x: -30,
-                delay: 500,
-                duration: 1500,
-                fontSize: fontSize.small
-            },
-            {
-                text: "Ngay minh chung doi.",
-                y: 40,
-                x: posX,
-                duration: 4000
-            },
-            {
-                text: "Ngay ma anh chinh thuc co em trong doi,",
-                id: "sphinx",
-                x: posX,
-                delay: 1000,
-                duration: 4500
-            },
-            {
-                text: "..... moi thu cu ngo nhu giac mo",
-                id: "end",
-                color: "#3f51b5",
-                delay: 1000,
-                x: posX,
-                duration: 4500
-            }
-        ],
-        {
-            strokeWidth: 2,
-            fontSize: fontSize.medium,
-            autoAnimation: false
-        }
-    );
-    vara[1] = new Vara(
-        "#vara-container2",
-        "https://rawcdn.githack.com/akzhy/Vara/ed6ab92fdf196596266ae76867c415fa659eb348/fonts/Satisfy/SatisfySL.json",
-        [
-            {
-                text: "24/02/2023",
-                textAlign: "right",
-                delay: 500,
-                y: 20,
-                x: -30,
-                duration: 1500,
-                fontSize: fontSize.small
-            },
-            {
-                text: "Anh lay het dung khi ve nha em.",
-                y: 40,
-                x: posX,
-                duration: 4000
-            },
-            {
-                text: "Moi quan he minh tro nen gat ket hon.",
-                y: 40,
-                x: posX,
-                duration: 3500
-            }
-        ],
-        {
-            strokeWidth: 2,
-            fontSize: fontSize.medium,
-            autoAnimation: false
-        }
-    );
-    vara[2] = new Vara(
-        "#vara-container3",
-        "https://rawcdn.githack.com/akzhy/Vara/ed6ab92fdf196596266ae76867c415fa659eb348/fonts/Satisfy/SatisfySL.json",
-        [
-            {
-                text: "13/09/2023",
-                textAlign: "right",
-                delay: 500,
-                y: 20,
-                x: -30,
-                duration: 1500,
-                fontSize: fontSize.small
-            },
-            {
-                text: "Happy anni 7 months babe.",
-                y: 40,
-                x: posX,
-                duration: 4000
-            },
-            {
-                text: "Co em la dieu tuyet nhat tren doi,",
-                y: 20,
-                x: posX,
-                duration: 3500
-            },
-            {
-                text: "Cam on em vi tat ca. Thuong em nhat.",
-                y: 10,
-                color: "#3f51b5",
-                id: "link",
-                x: posX,
-                duration: 1500
-            }
-        ],
-        {
-            strokeWidth: 2,
-            fontSize: fontSize.medium,
-            autoAnimation: false
-        }
-    );
-    vara[3] = new Vara(
-        "#vara-container3",
-        "https://rawcdn.githack.com/akzhy/Vara/ed6ab92fdf196596266ae76867c415fa659eb348/fonts/Satisfy/SatisfySL.json",
-        [
-            {
-                text: "17 Jan 2019",
-                textAlign: "right",
-                delay: 500,
-                y: 20,
-                x: -30,
-                duration: 1500,
-                fontSize: fontSize.small
-            },
-            {
-                text: "Creating a Diary.",
-                y: 40,
-                x: posX,
-                duration: 4000
-            },
-            {
-                text: "View the library on,",
-                y: 20,
-                x: posX,
-                duration: 3500
-            },
-            {
-                text: "Github.",
-                y: 10,
-                color: "#3f51b5",
-                id: "link",
-                x: posX,
-                duration: 1500
-            }
-        ],
-        {
-            strokeWidth: 2,
-            fontSize: fontSize.medium,
-            autoAnimation: false
-        }
-    );
-    // ---------------------------------------------
-    vara[2].ready(function () {
-        $(".front:not(.last)").click(function () {
-            var ix = $(this).parent(".paper").index();
-            $(".book").addClass("open");
-            $(this).parent(".paper").addClass("open");
-            if (!played[ix]) {
-                vara[ix].playAll();
-                vara[ix].animationEnd(function (i, o) {
-                    played[ix] = 1;
-                    if (i == "link") {
-                        var group = o.container;
-                        var rect = vara[2].createNode("rect", {
-                            x: 0,
-                            y: 0,
-                            width: o.container.getBoundingClientRect().width,
-                            height: o.container.getBoundingClientRect().height,
-                            fill: "transparent"
-                        });
-                        group.appendChild(rect);
-                        $(rect).css("cursor", "pointer");
-                        $(rect).click(function () {
-                            console.log(true);
-                            document.querySelector("#link").click();
-                        });
-                    }
-                });
-            }
-        });
-        $(".back").click(function () {
-            if ($(this).parent(".paper").index() == 0) $(".book").removeClass("open");
-            $(this).parent(".paper").removeClass("open");
-        });
-    });
+    var w = c.width = window.innerWidth,
+        h = c.height = window.innerHeight,
+        ctx = c.getContext('2d'),
 
+        hw = w / 2, // half-width
+        hh = h / 2,
+
+        opts = {
+            strings: ['CHÚC MỪNG SINH NHẬT', 'BA NGHĨA!'],
+            charSize: 30,
+            charSpacing: 35,
+            lineHeight: 40,
+
+            cx: w / 2,
+            cy: h / 2,
+
+            fireworkPrevPoints: 10,
+            fireworkBaseLineWidth: 5,
+            fireworkAddedLineWidth: 8,
+            fireworkSpawnTime: 200,
+            fireworkBaseReachTime: 30,
+            fireworkAddedReachTime: 30,
+            fireworkCircleBaseSize: 20,
+            fireworkCircleAddedSize: 10,
+            fireworkCircleBaseTime: 30,
+            fireworkCircleAddedTime: 30,
+            fireworkCircleFadeBaseTime: 10,
+            fireworkCircleFadeAddedTime: 5,
+            fireworkBaseShards: 5,
+            fireworkAddedShards: 5,
+            fireworkShardPrevPoints: 3,
+            fireworkShardBaseVel: 4,
+            fireworkShardAddedVel: 2,
+            fireworkShardBaseSize: 3,
+            fireworkShardAddedSize: 3,
+            gravity: .1,
+            upFlow: -.1,
+            letterContemplatingWaitTime: 360,
+            balloonSpawnTime: 20,
+            balloonBaseInflateTime: 10,
+            balloonAddedInflateTime: 10,
+            balloonBaseSize: 20,
+            balloonAddedSize: 20,
+            balloonBaseVel: .4,
+            balloonAddedVel: .4,
+            balloonBaseRadian: -(Math.PI / 2 - .5),
+            balloonAddedRadian: -1,
+        },
+        calc = {
+            totalWidth: opts.charSpacing * Math.max(opts.strings[0].length, opts.strings[1].length)
+        },
+
+        Tau = Math.PI * 2,
+        TauQuarter = Tau / 4,
+
+        letters = [];
+
+    ctx.font = opts.charSize + 'px Verdana';
+
+    function Letter(char, x, y) {
+        this.char = char;
+        this.x = x;
+        this.y = y;
+
+        this.dx = -ctx.measureText(char).width / 2;
+        this.dy = +opts.charSize / 2;
+
+        this.fireworkDy = this.y - hh;
+
+        var hue = x / calc.totalWidth * 360;
+
+        this.color = 'hsl(hue,80%,50%)'.replace('hue', hue);
+        this.lightAlphaColor = 'hsla(hue,80%,light%,alp)'.replace('hue', hue);
+        this.lightColor = 'hsl(hue,80%,light%)'.replace('hue', hue);
+        this.alphaColor = 'hsla(hue,80%,50%,alp)'.replace('hue', hue);
+
+        this.reset();
+    }
+    Letter.prototype.reset = function () {
+
+        this.phase = 'firework';
+        this.tick = 0;
+        this.spawned = false;
+        this.spawningTime = opts.fireworkSpawnTime * Math.random() | 0;
+        this.reachTime = opts.fireworkBaseReachTime + opts.fireworkAddedReachTime * Math.random() | 0;
+        this.lineWidth = opts.fireworkBaseLineWidth + opts.fireworkAddedLineWidth * Math.random();
+        this.prevPoints = [[0, hh, 0]];
+    }
+    Letter.prototype.step = function () {
+
+        if (this.phase === 'firework') {
+
+            if (!this.spawned) {
+
+                ++this.tick;
+                if (this.tick >= this.spawningTime) {
+
+                    this.tick = 0;
+                    this.spawned = true;
+                }
+
+            } else {
+
+                ++this.tick;
+
+                var linearProportion = this.tick / this.reachTime,
+                    armonicProportion = Math.sin(linearProportion * TauQuarter),
+
+                    x = linearProportion * this.x,
+                    y = hh + armonicProportion * this.fireworkDy;
+
+                if (this.prevPoints.length > opts.fireworkPrevPoints)
+                    this.prevPoints.shift();
+
+                this.prevPoints.push([x, y, linearProportion * this.lineWidth]);
+
+                var lineWidthProportion = 1 / (this.prevPoints.length - 1);
+
+                for (var i = 1; i < this.prevPoints.length; ++i) {
+
+                    var point = this.prevPoints[i],
+                        point2 = this.prevPoints[i - 1];
+
+                    ctx.strokeStyle = this.alphaColor.replace('alp', i / this.prevPoints.length);
+                    ctx.lineWidth = point[2] * lineWidthProportion * i;
+                    ctx.beginPath();
+                    ctx.moveTo(point[0], point[1]);
+                    ctx.lineTo(point2[0], point2[1]);
+                    ctx.stroke();
+
+                }
+
+                if (this.tick >= this.reachTime) {
+
+                    this.phase = 'contemplate';
+
+                    this.circleFinalSize = opts.fireworkCircleBaseSize + opts.fireworkCircleAddedSize * Math.random();
+                    this.circleCompleteTime = opts.fireworkCircleBaseTime + opts.fireworkCircleAddedTime * Math.random() | 0;
+                    this.circleCreating = true;
+                    this.circleFading = false;
+
+                    this.circleFadeTime = opts.fireworkCircleFadeBaseTime + opts.fireworkCircleFadeAddedTime * Math.random() | 0;
+                    this.tick = 0;
+                    this.tick2 = 0;
+
+                    this.shards = [];
+
+                    var shardCount = opts.fireworkBaseShards + opts.fireworkAddedShards * Math.random() | 0,
+                        angle = Tau / shardCount,
+                        cos = Math.cos(angle),
+                        sin = Math.sin(angle),
+
+                        x = 1,
+                        y = 0;
+
+                    for (var i = 0; i < shardCount; ++i) {
+                        var x1 = x;
+                        x = x * cos - y * sin;
+                        y = y * cos + x1 * sin;
+
+                        this.shards.push(new Shard(this.x, this.y, x, y, this.alphaColor));
+                    }
+                }
+
+            }
+        } else if (this.phase === 'contemplate') {
+
+            ++this.tick;
+
+            if (this.circleCreating) {
+
+                ++this.tick2;
+                var proportion = this.tick2 / this.circleCompleteTime,
+                    armonic = -Math.cos(proportion * Math.PI) / 2 + .5;
+
+                ctx.beginPath();
+                ctx.fillStyle = this.lightAlphaColor.replace('light', 50 + 50 * proportion).replace('alp', proportion);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, armonic * this.circleFinalSize, 0, Tau);
+                ctx.fill();
+
+                if (this.tick2 > this.circleCompleteTime) {
+                    this.tick2 = 0;
+                    this.circleCreating = false;
+                    this.circleFading = true;
+                }
+            } else if (this.circleFading) {
+
+                ctx.fillStyle = this.lightColor.replace('light', 70);
+                ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
+
+                ++this.tick2;
+                var proportion = this.tick2 / this.circleFadeTime,
+                    armonic = -Math.cos(proportion * Math.PI) / 2 + .5;
+
+                ctx.beginPath();
+                ctx.fillStyle = this.lightAlphaColor.replace('light', 100).replace('alp', 1 - armonic);
+                ctx.arc(this.x, this.y, this.circleFinalSize, 0, Tau);
+                ctx.fill();
+
+                if (this.tick2 >= this.circleFadeTime)
+                    this.circleFading = false;
+
+            } else {
+
+                ctx.fillStyle = this.lightColor.replace('light', 70);
+                ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
+            }
+
+            for (var i = 0; i < this.shards.length; ++i) {
+
+                this.shards[i].step();
+
+                if (!this.shards[i].alive) {
+                    this.shards.splice(i, 1);
+                    --i;
+                }
+            }
+
+            if (this.tick > opts.letterContemplatingWaitTime) {
+
+                this.phase = 'balloon';
+
+                this.tick = 0;
+                this.spawning = true;
+                this.spawnTime = opts.balloonSpawnTime * Math.random() | 0;
+                this.inflating = false;
+                this.inflateTime = opts.balloonBaseInflateTime + opts.balloonAddedInflateTime * Math.random() | 0;
+                this.size = opts.balloonBaseSize + opts.balloonAddedSize * Math.random() | 0;
+
+                var rad = opts.balloonBaseRadian + opts.balloonAddedRadian * Math.random(),
+                    vel = opts.balloonBaseVel + opts.balloonAddedVel * Math.random();
+
+                this.vx = Math.cos(rad) * vel;
+                this.vy = Math.sin(rad) * vel;
+            }
+        } else if (this.phase === 'balloon') {
+
+            ctx.strokeStyle = this.lightColor.replace('light', 80);
+
+            if (this.spawning) {
+
+                ++this.tick;
+                ctx.fillStyle = this.lightColor.replace('light', 70);
+                ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
+
+                if (this.tick >= this.spawnTime) {
+                    this.tick = 0;
+                    this.spawning = false;
+                    this.inflating = true;
+                }
+            } else if (this.inflating) {
+
+                ++this.tick;
+
+                var proportion = this.tick / this.inflateTime,
+                    x = this.cx = this.x,
+                    y = this.cy = this.y - this.size * proportion;
+
+                ctx.fillStyle = this.alphaColor.replace('alp', proportion);
+                ctx.beginPath();
+                generateBalloonPath(x, y, this.size * proportion);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x, this.y);
+                ctx.stroke();
+
+                ctx.fillStyle = this.lightColor.replace('light', 70);
+                ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
+
+                if (this.tick >= this.inflateTime) {
+                    this.tick = 0;
+                    this.inflating = false;
+                }
+
+            } else {
+
+                this.cx += this.vx;
+                this.cy += this.vy += opts.upFlow;
+
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                generateBalloonPath(this.cx, this.cy, this.size);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(this.cx, this.cy);
+                ctx.lineTo(this.cx, this.cy + this.size);
+                ctx.stroke();
+
+                ctx.fillStyle = this.lightColor.replace('light', 70);
+                ctx.fillText(this.char, this.cx + this.dx, this.cy + this.dy + this.size);
+
+                if (this.cy + this.size < -hh || this.cx < -hw || this.cy > hw)
+                    this.phase = 'done';
+
+            }
+        }
+    }
+    function Shard(x, y, vx, vy, color) {
+
+        var vel = opts.fireworkShardBaseVel + opts.fireworkShardAddedVel * Math.random();
+
+        this.vx = vx * vel;
+        this.vy = vy * vel;
+
+        this.x = x;
+        this.y = y;
+
+        this.prevPoints = [[x, y]];
+        this.color = color;
+
+        this.alive = true;
+
+        this.size = opts.fireworkShardBaseSize + opts.fireworkShardAddedSize * Math.random();
+    }
+    Shard.prototype.step = function () {
+
+        this.x += this.vx;
+        this.y += this.vy += opts.gravity;
+
+        if (this.prevPoints.length > opts.fireworkShardPrevPoints)
+            this.prevPoints.shift();
+
+        this.prevPoints.push([this.x, this.y]);
+
+        var lineWidthProportion = this.size / this.prevPoints.length;
+
+        for (var k = 0; k < this.prevPoints.length - 1; ++k) {
+
+            var point = this.prevPoints[k],
+                point2 = this.prevPoints[k + 1];
+
+            ctx.strokeStyle = this.color.replace('alp', k / this.prevPoints.length);
+            ctx.lineWidth = k * lineWidthProportion;
+            ctx.beginPath();
+            ctx.moveTo(point[0], point[1]);
+            ctx.lineTo(point2[0], point2[1]);
+            ctx.stroke();
+
+        }
+
+        if (this.prevPoints[0][1] > hh)
+            this.alive = false;
+    }
+    function generateBalloonPath(x, y, size) {
+
+        ctx.moveTo(x, y);
+        ctx.bezierCurveTo(x - size / 2, y - size / 2,
+            x - size / 4, y - size,
+            x, y - size);
+        ctx.bezierCurveTo(x + size / 4, y - size,
+            x + size / 2, y - size / 2,
+            x, y);
+    }
+
+    function anim() {
+
+        window.requestAnimationFrame(anim);
+
+        ctx.fillStyle = '#111';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.translate(hw, hh);
+
+        var done = true;
+        for (var l = 0; l < letters.length; ++l) {
+
+            letters[l].step();
+            if (letters[l].phase !== 'done')
+                done = false;
+        }
+
+        ctx.translate(-hw, -hh);
+
+        if (done)
+            for (var l = 0; l < letters.length; ++l)
+                letters[l].reset();
+    }
+
+    for (var i = 0; i < opts.strings.length; ++i) {
+        for (var j = 0; j < opts.strings[i].length; ++j) {
+            letters.push(new Letter(opts.strings[i][j],
+                j * opts.charSpacing + opts.charSpacing / 2 - opts.strings[i].length * opts.charSize / 2,
+                i * opts.lineHeight + opts.lineHeight / 2 - opts.strings.length * opts.lineHeight / 2));
+        }
+    }
+
+    anim();
+
+    window.addEventListener('resize', function () {
+
+        w = c.width = window.innerWidth;
+        h = c.height = window.innerHeight;
+
+        hw = w / 2;
+        hh = h / 2;
+
+        ctx.font = opts.charSize + 'px Verdana';
+    })
 </script>
 
 </html>
